@@ -1,25 +1,53 @@
+import datetime
+from collections import OrderedDict
 from peewee import *
 
 db = SqliteDatabase('diary.db')
 
-class = Entry(Model):
-	# content
-	# timestamp
+
+
+class Entry(Model):
+	content = TextField()
+	timestamp = DateTimeField(default=datetime.datetime.now)
 
 	class Meta:
 		database = db
 
+def intitialize():
+	"""Create the database and table if they don't exist."""
+	db.connect()
+	db.create_tables([Entry], safe=True)
+
 def menu_loop():
-	#show the menu
+	'''show the menu'''
+	choice = None
+
+	while choice != 'q':
+		print("Enter 'q' to quit.")
+		for key, value in menu.items():
+			print('{}) {}'.format(key,value.__doc__))
+		choice = input('Action: ').lower().strip()
+
+		if choice in menu:
+			menu[choice]()
 
 def add_entry():
-	#add an entry
+	'''add an entry'''
+	pass
 
 def view_entries():
-	#view previous entries
+	'''view previous entries'''
+	pass
 
 def delete_entry(entry):
-	#delete an entry
+	'''delete an entry'''
+	pass
 
-if __name__ = '__main__':
+menu = OrderedDict([
+	('a', add_entry),
+	('v', view_entries),
+])
+
+if __name__ == '__main__':
+	intitialize()
 	menu_loop()
